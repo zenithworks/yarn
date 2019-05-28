@@ -70,5 +70,5 @@ jobs:
       title: Yarn Release version $(Build.SourceBranchName) 
       releaseNotesSource: input
       releaseNotes: | 
-        Scikit Releases $(Build.SourceBranchName) 
+        Yarn Releases $(Build.SourceBranchName) 
        
