@@ -1,3 +1,8 @@
+trigger:
+  branches:
+    include:
+    - '*'  
+    - refs/tags/*
 jobs:
 
 - job: Windows
@@ -49,3 +54,21 @@ jobs:
 
   steps:
   - template: scripts/azure-run-tests.yml
+
+- job: GitHub_Release
+  displayName: Release to GitHub.com
+  dependsOn: 
+  - Linux
+  - macOS
+  - Windows
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/v1.'))  
+  steps:
+  - task: GitHubRelease@0
+    displayName: 'GitHub release (create)'
+    inputs:
+      gitHubConnection: 'github-zenithworks'
+      title: Yarn Release version $(Build.SourceBranchName) 
+      releaseNotesSource: input
+      releaseNotes: | 
+        Scikit Releases $(Build.SourceBranchName) 
+       
